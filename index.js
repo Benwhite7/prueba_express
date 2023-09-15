@@ -12,7 +12,7 @@ app.use(express.json());
 const whitelist = ["http://localhost:8080" , "http://localhost:myapp.co"]; //Delimita las direcciones que pueden mandar una peticion
 const options = {
   origin : (origin , callback) => {
-    if(whitelist.includes(origin)) {
+    if(whitelist.includes(origin)|| !origin) {
       callback(null , true);
     } else {
       callback( new Error ("No permitir"))
