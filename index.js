@@ -2,10 +2,10 @@ const express = require("express");
 const cors = require("cors");
 const routerApi = require("./routes");
 
-const { logErrors , errorHandler, boomeErrorHandler } = require("./middlewares/error.handler");
+const { logErrors , errorHandler, boomErrorHandler , ormErrorHandler } = require("./middlewares/error.handler");
 
 const app = express();
-const port = 3000;
+const port=process.env.PORT||3000;
 
 app.use(express.json());
 
@@ -19,7 +19,7 @@ const options = {
     }
   }
 }
-app.use(cors());
+app.use(cors(options));
 
 app.get("/api" , (req , res) => {
   res.send("Hello world in express")
@@ -32,7 +32,8 @@ app.get("/api/nueva-ruta" , (req , res) => {
 routerApi(app);
 
 app.use(logErrors);
-app.use(boomeErrorHandler);
+app.use(ormErrorHandler);
+app.use(boomErrorHandler);
 app.use(errorHandler);
 
 app.listen(port , ()=> {
